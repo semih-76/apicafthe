@@ -19,12 +19,10 @@ const getAll = async (req, res) => {
   }
 };
 
-// Récupéré un article par son id
+// Récupérer un article par son id
 const getById = async (req, res) => {
   try {
-    // const id = req.params.id;
     const { id } = req.params;
-    const articleId = parseInt(id);
 
     const articles = await getArticleById(id);
 
@@ -41,8 +39,9 @@ const getById = async (req, res) => {
   } catch (error) {
     console.error("Erreur de récupération de l'article", error.message);
     res.status(500).json({
-      message: "Erreur de récupération de l'articles",
+      message: "Erreur de récupération de l'article",
     });
   }
 };
+
 module.exports = { getAll, getById };

@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
+const cookieParser = require("cookie-parser");
 
 // Permet de charger les variables d'env depuis .env
 require("dotenv").config();
@@ -30,15 +31,19 @@ app.use(
     cors({
       origin: process.env.FRONTEND_URL || "http://localhost:5173",
       methods: ["GET", "POST", "PUT", "DELETE"],
+      credentials : true,
     }),
 );
+
+// Parser les cookies dans req
+app.use(cookieParser());
 
 // ROUTES
 
 // Route d'accueil
 app.get("/", (req, res) => {
   res.json({
-    message: "Bienvenue sur l'API CafThé ☕",
+    message: "Bienvenue sur l'API CafThé",
     version: "1.0.0",
     endpoints: {
       health: "/health",

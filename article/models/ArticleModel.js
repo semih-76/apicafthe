@@ -16,6 +16,4 @@ const getArticleById = async (id) => {
   return rows;
 };
 
-// récupérer un article par sa catégorie
-
 module.exports = { getAllArticles, getArticleById };
