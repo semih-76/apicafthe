@@ -1,8 +1,19 @@
 // Client Router // chemin : /api/clients
 const express = require("express");
 const router = express.Router();
+const { register, login, logout, getMe } = require("../controllers/ClientControllers");
+const { verifyToken } = require("../../middleware/authMiddleware");
 
-const { register, login } = require("../controllers/ClientControllers");
+// Vérification de session client
+// Route protégée
+// GET / /api/clients/me
+router.get("/me", verifyToken, getMe)
+
+// Déconnexion
+// Route protégée
+
+// POST /api/clients/logout
+router.post("/logout", logout)
 
 // Inscription d'un client
 // POST /api/clients/register
