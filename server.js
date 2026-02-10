@@ -29,11 +29,15 @@ app.use(morgan("dev"));
 
 app.use(
     cors({
-      origin: process.env.FRONTEND_URL || "http://localhost:5173",
+
+      origin: ["http://localhost:5173", "http://localhost:5175"],
       methods: ["GET", "POST", "PUT", "DELETE"],
-      credentials : true,
+      credentials: true,
     }),
 );
+
+// Juste après tes middlewares (cors, express.json...)
+app.use('/images', express.static('images'));
 
 // Parser les cookies dans req
 app.use(cookieParser());
