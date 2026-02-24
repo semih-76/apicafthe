@@ -84,7 +84,7 @@ const saveOrderDetails = (id_commande, articles, connection = db) => {
 
         const sql = `INSERT INTO details_commande
                          (ID_Commande, ID_Article, quantite, prix_unitaire)
-                     VALUES ?`;
+                     VALUES (?, ?, ?, ?)`;
 
         // Préparer les valeurs pour l'insertion multiple
         const values = articles.map(article => [

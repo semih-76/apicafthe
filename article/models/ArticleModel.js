@@ -16,4 +16,7 @@ const getArticleById = async (id) => {
   return rows;
 };
 
+
+
+
 module.exports = { getAllArticles, getArticleById };
