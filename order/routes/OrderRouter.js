@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const { createOrder } = require("../controllers/OrderController");
+const { createOrder, getClientOrders } = require("../controllers/OrderController");
+const { verifyToken } = require("../../middleware/authMiddleware");
 
-// POST /api/orders - Créer une commande et décrémenter le stock
+router.get("/", verifyToken, getClientOrders);
 router.post("/", createOrder);
 
 module.exports = router;

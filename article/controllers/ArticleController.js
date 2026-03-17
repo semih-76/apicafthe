@@ -1,11 +1,17 @@
 // Controleur Articles
-const { getAllArticles, getArticleById } = require("../models/ArticleModel");
+const { getAllArticles, getArticleById, searchArticles} = require("../models/ArticleModel");
 
 // Récupérer tous les articles
 const getAll = async (req, res) => {
   try {
-    const articles = await getAllArticles();
+    const { search, limit } = req.query;
 
+    if (search && search.trim().length >= 2) {
+      const articles = await searchArticles(search.trim(), parseInt(limit) || 5);
+      return res.json({ articles });
+    }
+
+    const articles = await getAllArticles();
     res.json({
       message: "Articles récupérés avec succès",
       count: articles.length,
@@ -13,9 +19,7 @@ const getAll = async (req, res) => {
     });
   } catch (error) {
     console.error("Erreur de récupération des articles", error.message);
-    res.status(500).json({
-      message: "Erreur de récupération des articles",
-    });
+    res.status(500).json({ message: "Erreur de récupération des articles" });
   }
 };
 

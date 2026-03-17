@@ -71,10 +71,10 @@ const login = async (req, res) => {
         }
 
         // Générer le token JWT
-        const expire = parseInt(process.env.JWT_EXPIRES_IN, 10) || 3600
+        const expire = parseInt(process.env.JWT_EXPIRES_IN, 10) || 604800
         const token = jwt.sign(
             {
-                id: client.id_client,
+                id: client.ID_Client,
                 email: client.email_client,
             },
             process.env.JWT_SECRET,
@@ -85,7 +85,7 @@ const login = async (req, res) => {
         res.cookie("token", token, {
 
             httpOnly: true,
-            secure: false, // Mettre sur true en HTTPS
+            secure: true, // Mettre sur true en HTTPS
             sameSite: "lax",
             maxAge: expire * 1000,
 

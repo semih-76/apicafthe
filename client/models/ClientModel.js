@@ -6,7 +6,7 @@ const bcrypt = require("bcryptjs");
 // Rechercher un client par son ID
 const findClientById = async (id) => {
     const [rows] = await db.query(
-        "SELECT * FROM clients WHERE id_client = ?",
+        "SELECT *, ID_Client as id_client FROM clients WHERE ID_Client = ?",
         [id]
     );
     return rows;
@@ -15,7 +15,7 @@ const findClientById = async (id) => {
 //Rechercher un client par email
 const findClientByEmail = async (email) => {
     const [rows] = await db.query(
-        "SELECT * FROM clients WHERE email_client = ?",
+        "SELECT *, ID_Client as id_client FROM clients WHERE email_client = ?",
         [email],
     );
     return rows;

@@ -1,46 +1,35 @@
 const express = require("express");
+const path = require("path");
 const cors = require("cors");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 
-// Permet de charger les variables d'env depuis .env
 require("dotenv").config();
 
-// Connexion à la bdd (bases de données)
 const db = require("./db");
 
-// === Importation des routes ===
 const articleRoutes = require("./article/routes/ArticleRouter");
 const clientRoutes = require("./client/routes/ClientRouter");
+const orderRoutes = require("./order/routes/OrderRouter");
 
-// Création de l'application Express
 const app = express();
 
-// MIDDLEWARES
-// Parser les JSON
 app.use(express.json());
-
-// Logger de requêtes HTTP dans la console
 app.use(morgan("dev"));
-
-// Permet les requêtes cross-origin (qui viennent du front)
-// CORS = Cross-Origin Ressource Sharing
-// OBLIGATOIRE sinon le navigateur bloque les requêtes
 
 app.use(
     cors({
       origin: process.env.FRONTEND_URL || "http://localhost:5173",
       methods: ["GET", "POST", "PUT", "DELETE"],
-      credentials : true,
+      credentials: true,
     }),
 );
 
-// Parser les cookies dans req
+// Sert les images produits depuis le dossier /images
+app.use("/images", express.static(path.join(__dirname, "images")));
+
 app.use(cookieParser());
 
-// ROUTES
-
-// Route d'accueil
 app.get("/", (req, res) => {
   res.json({
     message: "Bienvenue sur l'API CafThé",
@@ -55,7 +44,6 @@ app.get("/", (req, res) => {
   });
 });
 
-// Route de test pour vérifier que l'api fonctionne
 app.get("/health", (req, res) => {
   res.json({
     status: "OK",
@@ -63,19 +51,16 @@ app.get("/health", (req, res) => {
   });
 });
 
-// Routes de l'API
 app.use("/api/articles", articleRoutes);
 app.use("/api/clients", clientRoutes);
+app.use("/api/commandes", orderRoutes);
 
-// GESTIONS DES ERREURS
-// Routes 404
 app.use((req, res) => {
   res.status(404).json({
     message: "Route non trouvée",
   });
 });
 
-// DÉMARRAGE DU SERVEUR
 const port = process.env.PORT || 3000;
 const host = process.env.HOST || "localhost";
 
